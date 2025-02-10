@@ -4,7 +4,7 @@ import pandas as pd
 
 
 
-def environment(param_eq,database,h):
+def environment(param_eq,database,idx,h):
     """
     Computes a number of atmospheric parameters assuming a circular orbit without atmospheric co-rotation or winds.
 
@@ -31,11 +31,11 @@ def environment(param_eq,database,h):
     
 
     #database_idx = int(np.random.uniform(0,database.shape[0]))
-    database_idx = 343
+    
     #print(database_idx)
 
     # Run MSISE-00 atmospheric model
-    atmosphere = database.iloc[database_idx].to_numpy()
+    atmosphere = database.iloc[idx].to_numpy()
 
     # Extract outputs from the model
     # Extract exospheric and kinetic temperatures

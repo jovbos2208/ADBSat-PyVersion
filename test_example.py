@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
+import sys
 from scipy.io import loadmat,savemat
 from calc.ADBSatImport import ADBSatImport
 from calc.environment import environment
@@ -25,7 +26,12 @@ N_elems = np.shape(mesh['meshdata']['XData'][0,0])[1]
 
 # Bedingungen
 constants = ConstantsData()
-alt = 250 * 1e3  # Höhe in Metern
+alt = sys.argv[1] * 1e3  # Höhe in Metern
+if len(sys.argv)==3:
+    idx = sys.argv[2]
+else:
+    idx=np.random.uniform(0,190000)
+    
 inc = 130  # Inklination in Grad
 env = { "h": alt}
 
@@ -48,9 +54,9 @@ inparam = {
 # Verbose und Cleanup
 
 
-database = pd.read_csv("atmos_data/msise00_database_250km.csv")
+database = pd.read_csv(f"atmos_data/msise00_database_{alt/1e3:03d}km.csv")
 # Umgebungseigenschaften berechnen
-inparam = environment(inparam,database,**env)
+inparam = environment(inparam,database,idx,**env)
 
 print('Dynamic Pressure: \n')
 print(0.5*np.sum(inparam['rho'])*inparam['mmean']/1000/constants.NA*np.sqrt(inparam['vinf']**2+inparam['vth']**2)**2)
