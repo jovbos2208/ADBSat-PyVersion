@@ -6,7 +6,55 @@ ADBSat-PyVersion is a Python translation of the original [ADBSat](https://github
 ## Repository Structure
 
 ```
-# Insert tree structure here
+.
+├── atmos_data
+│   ├── database100km.zip
+│   ├── database150km.zip
+│   ├── database200km.zip
+│   ├── database250km.zip
+│   ├── database300km.zip
+│   ├── database350km.zip
+│   └── database400km.zip
+├── calc
+│   ├── ADBSatConstants.py
+│   ├── ADBSatFcn.py
+│   ├── ADBSatImport.py
+│   ├── calc_coeff.py
+│   ├── coeff_CLL.py
+│   ├── coeff_cook.py
+│   ├── coeff_DRIA.py
+│   ├── coeff_maxwell.py
+│   ├── coeff_newton.py
+│   ├── coeff_schaaf.py
+│   ├── coeff_sentman.py
+│   ├── coeff_solar.py
+│   ├── coeff_storchHyp.py
+│   ├── environment.py
+│   ├── importobjtri.py
+│   ├── __init__.py
+│   ├── insidetri.py
+│   ├── mainCoeff.py
+│   ├── obj_fileTri2patch.py
+│   ├── shadowAnaly.py
+│   └── surfaceNormals.py
+├── inou
+│   ├── models
+│   ├── obj_files
+│   │   ├── Cube.obj
+│   │   ├── CubeSat.obj
+│   │   ├── meshlab_reset_origin.mlx
+│   │   └── stl2obj.py
+│   ├── results
+│   │   ├── Cube
+│   │   └── CubeSat
+│   └── stl_files
+│       └── Cube.STL
+├── postpro
+│   ├── plotNormals.py
+│   └── plot_surfq.py
+├── README.md
+└── test_example.py
+
 ```
 
 ## Installation Guide
