@@ -102,7 +102,8 @@ def calc_coeff(fi_name, respath, aoaS, aosS, param_eq, flag_shad, flag_sol, dele
                 cp[shad_pan] = ctau[shad_pan] = cd[shad_pan] = cl[shad_pan] = 0
 
             # Save results
-            file_name = f"{mat_name}_aoa{int(np.degrees(aoa))}_aos{int(np.degrees(aos))}.mat"
+            method_name = param_eq['gsi_model']
+            file_name = f"{mat_name}_{method_name}_aoa{int(np.degrees(aoa))}_aos{int(np.degrees(aos))}.mat"
             savemat(os.path.join(path_sav, file_name), {
                 'cp': cp, 'ctau': ctau, 'cd': cd, 'cl': cl,
                 'aoa': aoa, 'aos': aos, 'delta': delta
