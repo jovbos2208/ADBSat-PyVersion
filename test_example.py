@@ -26,11 +26,11 @@ N_elems = np.shape(mesh['meshdata']['XData'][0,0])[1]
 
 # Bedingungen
 constants = ConstantsData()
-alt = sys.argv[1] * 1e3  # Höhe in Metern
+alt = int(sys.argv[1]) * 1e3  # Höhe in Metern
 if len(sys.argv)==3:
-    idx = sys.argv[2]
+    idx = int(sys.argv[2])
 else:
-    idx=np.random.uniform(0,190000)
+    idx=int(np.random.uniform(0,190000))
     
 inc = 130  # Inklination in Grad
 env = { "h": alt}
@@ -54,7 +54,7 @@ inparam = {
 # Verbose und Cleanup
 
 
-database = pd.read_csv(f"atmos_data/msise00_database_{alt/1e3:03d}km.csv")
+database = pd.read_csv(f"atmos_data/msise00_database_{int(sys.argv[1]):03d}km.csv")
 # Umgebungseigenschaften berechnen
 inparam = environment(inparam,database,idx,**env)
 
