@@ -21,6 +21,7 @@ class ConstantsData:
         self.mH = 1.0079
         self.mN = 14.0067
         self.mAnO = 15.99
+        self.mNO = 30.0067
 
 
 class EnvironmentData:
