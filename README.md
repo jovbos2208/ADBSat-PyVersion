@@ -87,7 +87,7 @@ ADBSat-PyVersion is a Python translation of the original [ADBSat](https://github
 To download the `ABDSat-PyVersion` repository and navigate into the directory, run the following command in your terminal:
 
 ```sh
-git clone git@github.com:jovbos2208/ABDSat-PyVersion.git
+git clone git@github.com:jovbos2208/ADBSat-PyVersion.git
 cd ABDSat-PyVersion/atmos_data
 unzip '*.zip'
 cd ..
