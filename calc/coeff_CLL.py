@@ -137,6 +137,7 @@ def coeff_cll(env_data, delta):
     rho[4] = 0 
     rho[7] = 0
     rho[8] = 0
+    rho[9] = 0
     rho = rho[rho != 0]
 
     # Anzahl der Spezies und Anzahl der Elemente

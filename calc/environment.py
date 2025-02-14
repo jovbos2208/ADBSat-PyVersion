@@ -40,9 +40,9 @@ def environment(param_eq,database,idx,h):
     # Extract outputs from the model
     # Extract exospheric and kinetic temperatures
     rho = np.array([
-        atmosphere[7], atmosphere[8], atmosphere[9],
-        atmosphere[10], atmosphere[11], atmosphere[13],
-        atmosphere[14], atmosphere[15], atmosphere[12]  # Adjust for other species if needed
+        atmosphere[4], atmosphere[3], atmosphere[1],
+        atmosphere[2], atmosphere[6], atmosphere[5],
+        atmosphere[7], atmosphere[8], atmosphere[9], atmosphere[0]  # Adjust for other species if needed
     ])
     #print(rho)
     param_eq["Texo"] = atmosphere[-2]
@@ -56,22 +56,22 @@ def environment(param_eq,database,idx,h):
     mmean = (rho[0] * constants.mHe + rho[1] * constants.mO +
              rho[2] * constants.mN2 + rho[3] * constants.mO2 +
              rho[4] * constants.mAr + rho[5] * constants.mH +
-             rho[6] * constants.mN + rho[7] * constants.mAnO) / total_density
+             rho[6] * constants.mN + rho[7] * constants.mAnO + rho[8] * constants.mNO) / total_density
 
     param_eq["mmean"] = mmean
     
 
     # Calculate mass concentrations
-    param_eq["massConc"] = np.zeros(9)
-    param_eq["massConc"][0] = rho[0] / rho[8] * (constants.mHe / constants.NA / 1000)
-    param_eq["massConc"][1] = rho[1] / rho[8] * (constants.mO / constants.NA / 1000)
-    param_eq["massConc"][2] = rho[2] / rho[8] * (constants.mN2 / constants.NA / 1000)
-    param_eq["massConc"][3] = rho[3] / rho[8] * (constants.mO2 / constants.NA / 1000)
-    param_eq["massConc"][4] = rho[4] / rho[8] * (constants.mAr / constants.NA / 1000)
-    param_eq["massConc"][5] = rho[5] / rho[8] * (constants.mH / constants.NA / 1000)
-    param_eq["massConc"][6] = rho[6] / rho[8] * (constants.mN / constants.NA / 1000)
-    param_eq["massConc"][7] = rho[7] / rho[8] * (constants.mN / constants.NA / 1000)
-
+    param_eq["massConc"] = np.zeros(10)
+    param_eq["massConc"][0] = rho[0] / rho[9] * (constants.mHe / constants.NA / 1000)
+    param_eq["massConc"][1] = rho[1] / rho[9] * (constants.mO / constants.NA / 1000)
+    param_eq["massConc"][2] = rho[2] / rho[9] * (constants.mN2 / constants.NA / 1000)
+    param_eq["massConc"][3] = rho[3] / rho[9] * (constants.mO2 / constants.NA / 1000)
+    param_eq["massConc"][4] = rho[4] / rho[9] * (constants.mAr / constants.NA / 1000)
+    param_eq["massConc"][5] = rho[5] / rho[9] * (constants.mH / constants.NA / 1000)
+    param_eq["massConc"][6] = rho[6] / rho[9] * (constants.mN / constants.NA / 1000)
+    param_eq["massConc"][7] = rho[7] / rho[9] * (constants.mN / constants.NA / 1000)
+    param_eq["massConc"][8] = rho[8] / rho[9] * (constants.mNO / constants.NA / 1000)
 
     # Calculate specific gas constant [J/kg K]
     param_eq["Rmean"] = (constants.R / mmean) * 1000

@@ -10,8 +10,8 @@ from postpro.plot_surfq import plot_surfq
 from calc.ADBSatConstants import ConstantsData
 
 # Eingabedaten
-mod_name = 'Cube'
-adbsat_path = '/Path/to/ADBSat-PyVersion-main/'  # Basispfad anpassen
+mod_name = 'CubeSat'
+adbsat_path = '/home/jovan/software/ADBSat-PyVersion-main/'  # Basispfad anpassen
 mod_in = os.path.join(adbsat_path, 'inou', 'obj_files', f"{mod_name}.obj")
 mod_out = os.path.join(adbsat_path, 'inou', 'models')
 res_out = os.path.join(adbsat_path, 'inou', 'results', mod_name)
@@ -36,13 +36,13 @@ inc = 130  # Inklination in Grad
 env = { "h": alt}
 
 aoa_deg = 0  # Angle of attack in degrees
-aos_deg = 90  # Angle of sideslip in degrees
+aos_deg = -90  # Angle of sideslip in degrees
 
 # Modellparameter
 shadow = True
 solar = True
 inparam = {
-    "gsi_model": 'Maxwell',
+    "gsi_model": 'DRIA',
     "alpha": np.ones(N_elems),
     "alphaN": np.ones(N_elems),
     "sigmaN" : np.ones(N_elems),
@@ -54,7 +54,7 @@ inparam = {
 # Verbose und Cleanup
 
 
-database = pd.read_csv(f"atmos_data/msise00_database_{int(sys.argv[1]):03d}km.csv")
+database = pd.read_csv(f"atmos_data/database_{int(sys.argv[1]):03d}km.csv")
 # Umgebungseigenschaften berechnen
 inparam = environment(inparam,database,idx,**env)
 

@@ -21,7 +21,7 @@ def coeff_DRIA(param_eq, delta):
     massConc = param_eq['massConc']  
 
     # Molecular masses of species
-    molecular_masses = np.array([const.mHe, const.mO, const.mN2, const.mO2, const.mAr, const.mH, const.mN, const.mAnO])
+    molecular_masses = np.array([const.mHe, const.mO, const.mN2, const.mO2, const.mAr, const.mH, const.mN, const.mAnO,const.mNO])
 
     gam = param_eq['gamma']
     ell = param_eq['ell']
@@ -46,8 +46,8 @@ def coeff_DRIA(param_eq, delta):
         ctau_j[j, :] = ell * G * Z + 0.5 * ell * Vratio * (gam * np.sqrt(np.pi) * Z + P)
 
     # Average coefficients
-    cp = np.sum(cp_j * massConc[:8, None], axis=0)
-    ctau = np.sum(ctau_j * massConc[:8, None], axis=0)
+    cp = np.sum(cp_j * massConc[:9, None], axis=0)
+    ctau = np.sum(ctau_j * massConc[:9, None], axis=0)
 
     cd = cp * np.cos(delta) + ctau * np.sin(delta)
     cl = cp * np.sin(delta) - ctau * np.cos(delta)
