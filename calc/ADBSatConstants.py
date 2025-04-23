@@ -8,7 +8,7 @@ class ConstantsData:
         self.mu_E = 3.986004418e14  # GM Earth [m^3/s^2]
         self.R_E = 6.37813649e6     # Equatorial Earth radius [m]
         self.R = 8.31446261815324   # Universal Gas constant [J K^-1 mol^-1]
-        self.kb = 1.3806503e-23     # Boltzmann constant [m^2 kg^-2 K^-1]
+        self.kb = 1.3806503e-23     # Boltzmann constant 
         self.NA = 6.02214076e23     # Avogadro constant [n mol^-1]
         self.pi = np.pi             # Pi
         

@@ -40,15 +40,15 @@ def environment(param_eq,database,idx,h):
     # Extract outputs from the model
     # Extract exospheric and kinetic temperatures
     rho = np.array([
-        atmosphere[4], atmosphere[3], atmosphere[1],
-        atmosphere[2], atmosphere[6], atmosphere[5],
-        atmosphere[7], atmosphere[8], atmosphere[9], atmosphere[0]  # Adjust for other species if needed
+        atmosphere[5], atmosphere[4], atmosphere[2],
+        atmosphere[3], atmosphere[7], atmosphere[6],
+        atmosphere[8], atmosphere[9], atmosphere[10], atmosphere[1]  # Adjust for other species if needed
     ])
     #print(rho)
     param_eq["Texo"] = atmosphere[-2]
     param_eq["Tinf"] = atmosphere[-1]
     param_eq["rho"] = rho
-    
+    print(rho)
 
     # Calculate mean molecular mass [g/mol]
     
@@ -59,9 +59,11 @@ def environment(param_eq,database,idx,h):
              rho[6] * constants.mN + rho[7] * constants.mAnO + rho[8] * constants.mNO) / total_density
 
     param_eq["mmean"] = mmean
-    
+    print(mmean)
 
-    # Calculate mass concentrations
+    param_eq["massConc"] = rho[:8] / rho[9]
+
+    '''# Calculate mass concentrations
     param_eq["massConc"] = np.zeros(10)
     param_eq["massConc"][0] = rho[0] / rho[9] * (constants.mHe / constants.NA / 1000)
     param_eq["massConc"][1] = rho[1] / rho[9] * (constants.mO / constants.NA / 1000)
@@ -71,17 +73,17 @@ def environment(param_eq,database,idx,h):
     param_eq["massConc"][5] = rho[5] / rho[9] * (constants.mH / constants.NA / 1000)
     param_eq["massConc"][6] = rho[6] / rho[9] * (constants.mN / constants.NA / 1000)
     param_eq["massConc"][7] = rho[7] / rho[9] * (constants.mN / constants.NA / 1000)
-    param_eq["massConc"][8] = rho[8] / rho[9] * (constants.mNO / constants.NA / 1000)
+    param_eq["massConc"][8] = rho[8] / rho[9] * (constants.mNO / constants.NA / 1000)'''
 
     # Calculate specific gas constant [J/kg K]
     param_eq["Rmean"] = (constants.R / mmean) * 1000
 
     # Orbital velocity [m/s]
     param_eq["vinf"] = np.sqrt(constants.mu_E / (constants.R_E + h))
-
+    print(param_eq["vinf"])
     # Thermal velocity
     param_eq["vth"] = np.sqrt(2 * constants.kb * param_eq["Tinf"] / (mmean / constants.NA / 1000))
-
+    print(param_eq["vth"])
     # Speed ratio
     param_eq["s"] = param_eq["vinf"] / param_eq["vth"]
 

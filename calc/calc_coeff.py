@@ -6,7 +6,7 @@ from scipy.io import loadmat, savemat
 import os
 
 
-def calc_coeff(fi_name, respath, aoaS, aosS, param_eq, flag_shad, flag_sol, delete_temp_files=False, verbose=False):
+def calc_coeff(fi_name, respath, aoaS, aosS, param_eq, flag_shad, flag_sol,dp, delete_temp_files=False, verbose=False):
     """
     Calculates local and global coefficients for the triangular mesh geometry.
 
@@ -85,12 +85,14 @@ def calc_coeff(fi_name, respath, aoaS, aosS, param_eq, flag_shad, flag_sol, dele
             uL[:, valid_idx] /= uL_norm[valid_idx]
 
             # Berechnung von `gamma` und `ell`
-            param_eq["gamma"] = np.einsum('ij,ij->j', -uD, surfN)  # Elementweises Skalarprodukt über Spalten
-            param_eq["ell"] = np.einsum('ij,ij->j', -uL, surfN)  # Dasselbe für uL
+            param_eq["gamma"] = np.cos(delta)  # Elementweises Skalarprodukt über Spalten
+            param_eq["ell"] = np.sin(delta)  # Dasselbe für uL
 
 
             # Calculate aerodynamic coefficients
             cp, ctau, cd, cl = mainCoeff(param_eq, delta, matID)
+
+            #cd = cd*dp
 
             # Optional: Solar coefficients
             if flag_sol:
@@ -103,7 +105,7 @@ def calc_coeff(fi_name, respath, aoaS, aosS, param_eq, flag_shad, flag_sol, dele
 
             # Save results
             method_name = param_eq['gsi_model']
-            file_name = f"{mat_name}_{method_name}_aoa{int(np.degrees(aoa))}_aos{int(np.degrees(aos))}.mat"
+            file_name = f"{mat_name}_{method_name}_aoa{int(np.degrees(aoa))}_aos{np.degrees(aos)}.mat"
             savemat(os.path.join(path_sav, file_name), {
                 'cp': cp, 'ctau': ctau, 'cd': cd, 'cl': cl,
                 'aoa': aoa, 'aos': aos, 'delta': delta
