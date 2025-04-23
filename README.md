@@ -91,5 +91,16 @@ Please provide one of the heights from 100km to 400km in 10km-steps when executi
 python test_example.py 200 4000
 ```
 
-(Databases for more heights will be added soon.)
+## References
+Sinpetru, L. A., Crisp, N. H., Mostaza-Prieto, D., Livadiotti, S., and Roberts, P. C. E. “ADBSat: Methodology of a Novel Panel Method Tool for Aerodynamic Analysis of Satellites.” Computer Physics Communications, Vol. 275, 2022, p. 108326. <https://doi.org/10.1016/j.cpc.2022.108326>.
+
+Sinpetru, L. A., Crisp, N. H., Roberts, P. C. E., Sulliotti-Linner, V., Hanessian, V., Herdrich, G. H., Romano, F., Garcia-Almiñana, D., Rodríguez-Donaire, S., and Seminari, S. “ADBSat: Verification and Validation of a Novel Panel Method for Quick Aerodynamic Analysis of Satellites.” Computer Physics Communications, Vol. 275, 2022, p. 108327. <https://doi.org/10.1016/j.cpc.2022.108327>.
+
+Mostaza-Prieto, D., Characterisation and Applications of Aerodynamic Torques on Satellites (PhD Thesis), The University of Manchester, 2017.
+
+## Licence
+This project is licensed under the GPL-3.0 License - see the LICENSE file for details.
+
+
+
 
