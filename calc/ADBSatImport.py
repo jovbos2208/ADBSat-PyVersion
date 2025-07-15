@@ -51,6 +51,7 @@ def ADBSatImport(file_in, path_out, struct_name, verbose=False):
         print("Summary:")
         print(f"  Number of elements: {len(areas)}")
         print(f"  Total area: {np.sum(areas):.6f}")
+        print(f"  Maximum Range: ({np.max(x_data)}{np.min(x_data)},{np.max(y_data)}{np.min(y_data)},{np.max(z_data)}{np.min(z_data)})")
         print(f"  Maximum element area: {np.max(areas):.6f}")
         print(f"  Minimum element area: {np.min(areas):.6f}")
         print(f"  Reference length: {len_ref:.6f}")

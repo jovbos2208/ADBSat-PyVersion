@@ -46,6 +46,8 @@ def environment(param_eq,database,idx,h):
         atmosphere[2], atmosphere[6], atmosphere[5],
         atmosphere[7], atmosphere[8], atmosphere[9], atmosphere[0]  # Adjust for other species if needed
     ])
+
+    #print(f'Spezien Dichten: {rho}')
     
     param_eq["Tinf"] = atmosphere[-1]
     param_eq["rho"] = rho
