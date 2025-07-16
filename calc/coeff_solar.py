@@ -1,28 +1,35 @@
 import numpy as np
 
+
 def coeff_solar(delta, param_eq):
     """
-    Calculates solar coefficients for a flat plate using Luthcke et al 1997 formula.
-    
-    Adsorptivity (alpha) + Specular Reflectivity (rho) + Diffuse Reflectivity (delta) = 1
-    Transmissivity = 0
+    Computes solar radiation pressure coefficients on a flat plate using 
+    the Luthcke et al. (1997) model.
+
+    Assumes no transmission (opaque surface) and:
+        absorptivity + specular reflectivity + diffuse reflectivity = 1
 
     Parameters:
-        delta (numpy.ndarray): Array of angles between the flow and the surface normal (radians).
-        param_eq (dict): Dictionary containing:
-            - sol_cR: Specular reflectivity component.
-            - sol_cD: Diffuse reflectivity component.
+        delta (np.ndarray): Array of incident angles [rad] between solar vector
+                            and surface normal.
+        param_eq (dict): Dictionary with:
+            - sol_cR (float): Specular reflectivity coefficient (rho)
+            - sol_cD (float): Diffuse reflectivity coefficient (delta)
 
     Returns:
-        tuple: (cn, cs) where:
-            - cn: Normal coefficient (numpy array).
-            - cs: Incident coefficient (numpy array).
+        tuple of np.ndarray:
+            - cn: Normal coefficient (force component normal to the surface)
+            - cs: Incident coefficient (force component in direction of sunlight)
     """
-    # Calculate normal coefficient
-    cn = 2 * ((param_eq['sol_cD'] / 3) * np.cos(delta) + param_eq['sol_cR'] * np.cos(delta)**2)
-    
-    # Calculate incident coefficient
-    cs = (1 - param_eq['sol_cR']) * np.cos(delta)
-    cs[cs < 0] = 0  # Ensure cs is non-negative
+    rho = param_eq['sol_cR']  # Specular reflectivity
+    d = param_eq['sol_cD']    # Diffuse reflectivity
+
+    # Normal force component due to solar pressure
+    cn = 2 * ((d / 3) * np.cos(delta) + rho * np.cos(delta) ** 2)
+
+    # Incident (or projected) force component
+    cs = (1 - rho) * np.cos(delta)
+    cs[cs < 0] = 0  # No force from back-facing panels
 
     return cn, cs
+
