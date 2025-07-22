@@ -151,7 +151,7 @@ pip install numpy scipy matplotlib mplcursors pandas
 To test the installation, run:
 
 ```sh
-python test_example.py 250
+python test_example.py 250 0 0 
 ```
 
 If everything works well, a plot should pop up with a cube with colored sides.
