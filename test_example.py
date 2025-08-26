@@ -13,12 +13,17 @@ from calc.ADBSatConstants import ConstantsData
 
 start = time.time()
 mod_name = 'Cube'
-base_path = '/home/jovan/software/ADBSat-PyVersion/'
+# Use the script's own path to build absolute paths
+base_path = os.path.dirname(os.path.abspath(__file__))
 
 mod_in = os.path.join(base_path, 'inou/obj_files', f"{mod_name}.obj")
-mod_out = os.path.join(base_path, 'inou/models')
-res_out = os.path.join(base_path, 'inou/results', mod_name)
-mesh_path = os.path.join(mod_out, f"{mod_name}.mat")
+mod_out_dir = os.path.join(base_path, 'inou/models')
+res_out_dir = os.path.join(base_path, 'inou/results', mod_name)
+mesh_path = os.path.join(mod_out_dir, f"{mod_name}.mat")
+
+# Ensure output directories exist
+os.makedirs(mod_out_dir, exist_ok=True)
+os.makedirs(res_out_dir, exist_ok=True)
 
 # Read command line arguments
 if len(sys.argv) != 4:
@@ -36,8 +41,8 @@ aoa_deg = 0  # fixed
 # Therefore, surfaces with normals pointing in +X experience maximum dynamic pressure.
 
 # Load and prepare geometry
-mod_out = ADBSatImport(mod_in, mod_out, mod_name, verbose=False)
-N_elems = np.shape(loadmat(mod_out)['meshdata']['XData'][0, 0])[1]
+mod_mat_path = ADBSatImport(mod_in, mod_out_dir, mod_name, verbose=False)
+N_elems = np.shape(loadmat(mod_mat_path)['meshdata']['XData'][0, 0])[1]
 
 inparam = {
     "gsi_model": 'Sentman',
@@ -51,12 +56,13 @@ inparam = {
 }
 
 # Load atmospheric conditions
-database = pd.read_csv(f"atmos_data/database_{int(alt/1000):03d}km.csv")
+database_path = os.path.join(base_path, f"atmos_data/database_{int(alt/1000):03d}km.csv")
+database = pd.read_csv(database_path)
 inparam = environment(inparam, database, idx, h=alt)
 
 # Run coefficient calculation
-file_out = calc_coeff(mod_out, res_out, [np.radians(aoa_deg)], [np.radians(aos_deg + 90)],
-                      inparam, shadow=True, flag_sol=True, dp=False, delete_temp_files=False, verbose=False)
+file_out = calc_coeff(mod_mat_path, res_out_dir, [np.radians(aoa_deg)], [np.radians(aos_deg + 90)],
+                      inparam, flag_shad=True, flag_sol=True, dp=False, delete_temp_files=False, verbose=False)
 
 print(f"✅ Py-ADBSat finished in {time.time() - start:.2f} s")
 

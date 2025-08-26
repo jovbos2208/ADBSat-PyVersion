@@ -38,11 +38,15 @@ def shadowAnaly(x, y, z, barC, delta, L_gw):
 
         for idx in np.where(zOverlap)[0]:
             # Teste Punkt im projizierten Dreieck
-            p1 = transY[0:2, idx]
-            p2 = transY[1:3, idx]
-            p3 = transY[2:4, idx]
+            # Extrahieren der YZ-Koordinaten des potenziell verdeckenden Dreiecks
+            triangle_coords = transY[:, idx]
+            p1 = triangle_coords[0:2]
+            p2 = triangle_coords[1:3]
+            p3 = np.array([triangle_coords[0], triangle_coords[2]]) # Korrekte Ecken bilden
+
             pt = np.zeros((2, 1))
 
+            # Sicherstellen, dass die Punkte die richtige Form für insidetri haben
             if insidetri(p1.reshape(2, 1), p2.reshape(2, 1), p3.reshape(2, 1), pt).any():
                 if barCw[0, indB[indBPot[yOverlap][idx]]] - barCw[0, indF[i]] > tolB:
                     shadPan[indF[i]] = 1
