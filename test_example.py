@@ -12,7 +12,7 @@ from postpro.plot_surfq import plot_surfq
 from calc.ADBSatConstants import ConstantsData
 
 start = time.time()
-mod_name = 'Cube'
+mod_name = 'Opt_Sat'
 # Use the script's own path to build absolute paths
 base_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -61,11 +61,13 @@ database = pd.read_csv(database_path)
 inparam = environment(inparam, database, idx, h=alt)
 
 # Run coefficient calculation
+print(f'Altitude: {alt*1e-3} km')
+print('----------------------')
 file_out = calc_coeff(mod_mat_path, res_out_dir, [np.radians(aoa_deg)], [np.radians(aos_deg + 90)],
                       inparam, flag_shad=True, flag_sol=True, dp=False, delete_temp_files=False, verbose=False)
-
+print('----------------------')
 print(f"✅ Py-ADBSat finished in {time.time() - start:.2f} s")
 
 # Visualization
-plot_surfq(file_out, mesh_path, aoa_deg, aos_deg, 'cd', show_normals=True)
+plot_surfq(file_out, mesh_path, aoa_deg, aos_deg, 'cd', show_normals=False)
 

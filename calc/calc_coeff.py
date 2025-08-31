@@ -130,6 +130,8 @@ def calc_coeff(fi_name, respath, aoaS, aosS, param_eq,
             Cm_g = (cross_tau @ ctau_area + cross_nrm @ cp_area) / (area_ref * len_ref)
             Cm_b = L_gb.T @ Cm_g
 
+            print(f'AoS: {np.degrees(aos)-90:5.1f}, Cd-Value: {np.mean(cd):5.5f}')
+
             # --- Global solar coefficients (if enabled) ---
             if flag_sol:
                 cstau = cs * np.sin(delta)
