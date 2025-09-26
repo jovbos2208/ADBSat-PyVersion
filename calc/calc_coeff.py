@@ -109,7 +109,7 @@ def calc_coeff(fi_name, respath, aoaS, aosS, param_eq,
             area_proj = areas * np.cos(delta)
             area_total = np.sum(areas)
             area_ref = area_total / 2.0
-
+            area_ref = np.sum(areas* np.clip(np.einsum('ij,ij->j',-v_matrix,surfN),0.0,None))
             # Shear direction unit vectors
             tau_dir = np.cross(surfN.T, np.cross(v_matrix.T, surfN.T)).T
             tau_norm = np.linalg.norm(tau_dir, axis=0)
@@ -123,14 +123,14 @@ def calc_coeff(fi_name, respath, aoaS, aosS, param_eq,
             Cf_g = (tau_dir @ ctau_area - surfN @ cp_area) / area_ref
             Cf_w = L_gw.T @ Cf_g
             Cf_f = L_fb @ (L_gb.T @ Cf_g)
-
+            print(f'Total Cd: {Cf_w[0]}')
             # --- Global aerodynamic moment ---
             cross_tau = np.cross(barC.T, tau_dir.T).T
             cross_nrm = np.cross(barC.T, -surfN.T).T
             Cm_g = (cross_tau @ ctau_area + cross_nrm @ cp_area) / (area_ref * len_ref)
             Cm_b = L_gb.T @ Cm_g
 
-            print(f'AoS: {np.degrees(aos)-90:5.1f}, Cd-Value: {np.mean(cd):5.5f}')
+            print(f'AoS: {np.degrees(aos):5.1f}, Cd-Value: {np.mean(cd):5.5f}')
 
             # --- Global solar coefficients (if enabled) ---
             if flag_sol:

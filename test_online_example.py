@@ -1,11 +1,12 @@
-# Usage: python test_online_example.py <alt_km> <lat> <lon> <aos_deg> <aoa_deg>
-# Example: python test_online_example.py 400 0 0 15 5
+# Usage: python test_online_example.py <alt_km> <lat_deg> <lon_deg> <aoa_deg> <aos_deg>
+# Example: python test_online_example.py 400 0 0 5 15
 
 import os
 import sys
 import time
 import numpy as np
 import datetime
+import random
 from scipy.io import loadmat
 from calc.ADBSatImport import ADBSatImport
 from calc.pymsis_data import get_atmospheric_data
@@ -14,8 +15,8 @@ from postpro.plot_surfq import plot_surfq
 
 # --- Argument Parsing ---
 if len(sys.argv) != 6:
-    print("Usage: python test_online_example.py <alt_km> <lat_deg> <lon_deg> <aos_deg> <aoa_deg>")
-    print("Example: python test_online_example.py 400 0 0 15 5")
+    print("Usage: python test_online_example.py <alt_km> <lat_deg> <lon_deg> <aoa_deg> <aos_deg>")
+    print("Example: python test_online_example.py 400 0 0 5 15")
     sys.exit(1)
 
 start = time.time()
@@ -35,19 +36,23 @@ os.makedirs(res_out_dir, exist_ok=True)
 alt_km = float(sys.argv[1])
 lat = float(sys.argv[2])
 lon = float(sys.argv[3])
-aos_deg = float(sys.argv[4])
-aoa_deg = float(sys.argv[5])
+aoa_deg = float(sys.argv[4])
+aos_deg = float(sys.argv[5])
 
-# --- Fixed Atmospheric Parameters for pymsis ---
-date = datetime.datetime(2010, 3, 15, 12, 0, 0)
+# --- Atmospheric Parameters for pymsis ---
+# Random date between 2010-01-01 and 2020-01-01 (UTC)
+_start = datetime.datetime(2010, 1, 1, 0, 0, 0)
+_end = datetime.datetime(2020, 1, 1, 0, 0, 0)
+_delta_s = int((_end - _start).total_seconds())
+date = _start + datetime.timedelta(seconds=random.randint(0, _delta_s - 1))
 f107 = 80.0
 f107a = 75.0
 ap = 7
 
 print(f"Running online test for {mod_name} with command line parameters:")
 print(f"Altitude: {alt_km} km, Latitude: {lat}°, Longitude: {lon}°")
-print(f"AoS: {aos_deg}°, AoA: {aoa_deg}°")
-print(f"Fixed Date: {date}, F10.7: {f107}, AP: {ap}")
+print(f"AoA: {aoa_deg}°, AoS: {aos_deg}°")
+print(f"Date: {date} (UTC), F10.7: {f107}, AP: {ap}")
 
 # 1. Load and prepare geometry
 # This converts the .obj file to a .mat file used by the calculation engine
@@ -72,15 +77,14 @@ inparam = get_atmospheric_data(inparam, date, lon, lat, alt_km, f107, f107a, ap)
 print(f"Calculated Tinf: {inparam['Tinf']:.2f} K, Vinf: {inparam['vinf']:.2f} m/s, Speed Ratio s: {inparam['s']:.2f}")
 
 # 4. Run the coefficient calculation
-# Note: aos is adjusted by +90 degrees to match the coordinate system expectations if needed
 file_out = calc_coeff(
-    mod_mat_path, res_out_dir, 
-    [np.radians(aoa_deg)], [np.radians(aos_deg + 90)],
-    inparam, 
-    flag_shad=True, 
-    flag_sol=True, 
-    dp=False, 
-    delete_temp_files=False, 
+    mod_mat_path, res_out_dir,
+    [np.radians(aoa_deg)], [np.radians(aos_deg)],
+    inparam,
+    flag_shad=True,
+    flag_sol=True,
+    dp=False,
+    delete_temp_files=False,
     verbose=True
 )
 
