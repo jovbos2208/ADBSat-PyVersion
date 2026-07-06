@@ -109,7 +109,7 @@ def calc_coeff(fi_name, respath, aoaS, aosS, param_eq,
             area_proj = areas * np.cos(delta)
             area_total = np.sum(areas)
             area_ref = area_total / 2.0
-            area_ref = np.sum(areas* np.clip(np.einsum('ij,ij->j',-v_matrix,surfN),0.0,None))
+            # area_ref = np.sum(areas* np.clip(np.einsum('ij,ij->j',-v_matrix,surfN),0.0,None))
             # Shear direction unit vectors
             tau_dir = np.cross(surfN.T, np.cross(v_matrix.T, surfN.T)).T
             tau_norm = np.linalg.norm(tau_dir, axis=0)
